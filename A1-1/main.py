@@ -82,7 +82,15 @@ def add_prompt():
 
 
 def show_list():
-    print("[프롬프트 목록] 기능은 준비 중입니다.")
+    print("\n--- 프롬프트 목록 ---")
+
+    if not prompts: # 리스트가 비어있으면(길이 0) 안내 메시지 출력 후 함수 종료
+        print("등록된 프롬프트가 없습니다.")
+        return
+
+    for i, p in enumerate(prompts, start=1):
+        star = "⭐" if p["favorite"] else "" # 즐겨찾기 여부에 따라 별 표시 여부 결정
+        print(f"{i}. [{p['category']}] {p['title']} {star}") # 요구사항에 명시된 표시 항목(번호, 제목, 카테고리, 즐겨찾기)
 
 
 def show_by_category():
@@ -101,7 +109,6 @@ def show_favorites():
     print("[즐겨찾기 관리] 기능은 준비 중입니다.")
 
 
-#def main():
 def main():
     while True:
         show_menu()
