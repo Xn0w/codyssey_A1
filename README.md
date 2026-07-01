@@ -6,7 +6,7 @@
 ## 실행 방법
 
 ```bash
-python3 A1-1/main.py
+python3 A1-1/code/main.py
 ```
 
 실행 후 화면에 나타나는 메뉴에서 원하는 번호를 입력하세요.
