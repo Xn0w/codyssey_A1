@@ -94,7 +94,26 @@ def show_list():
 
 
 def show_by_category():
-    print("[카테고리별 조회] 기능은 준비 중입니다.")
+    # 1. 사용 가능한 카테고리 목록을 사용자에게 보여준다
+    print("\n--- 카테고리별 조회 ---")
+    print("카테고리 목록:", ", ".join(CATEGORIES))
+
+    # 2. 사용자로부터 조회하고 싶은 카테고리를 입력받는다
+    selected_category = input("조회할 카테고리를 입력하세요: ").strip()
+
+    # 3. 입력받은 카테고리와 일치하는 프롬프트만 리스트로 걸러낸다 (필터링)
+    filtered = [p for p in prompts if p["category"] == selected_category]
+
+    # 4. 해당 카테고리에 프롬프트가 하나도 없는 경우 안내 메시지 출력
+    if not filtered:
+        print(f"'{selected_category}' 카테고리에 등록된 프롬프트가 없습니다.")
+        return
+
+    # 5. 필터링된 프롬프트들을 번호, 제목, 즐겨찾기 여부와 함께 출력
+    print(f"\n[{selected_category}] 카테고리의 프롬프트 목록")
+    for i, p in enumerate(filtered, start=1):
+        star = "⭐" if p["favorite"] else ""
+        print(f"{i}. {p['title']} {star}")
 
 
 def search_prompt():
