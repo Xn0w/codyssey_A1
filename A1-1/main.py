@@ -179,9 +179,62 @@ def show_detail():
     print(f"내용:\n{p['content']}")
     print("===============================")
 
-
+# 10. 즐겨찾기 관리
 def show_favorites():
-    print("[즐겨찾기 관리] 기능은 준비 중입니다.")
+    print("\n--- 즐겨찾기 관리 ---")
+    print("1. 즐겨찾기 추가/해제")
+    print("2. 즐겨찾기 목록 보기")
+
+    # 1. 하위 메뉴 선택
+    sub_choice = input("원하는 기능을 선택하세요: ").strip()
+
+    if sub_choice == "1":
+        # ---- 즐겨찾기 추가/해제 ----
+
+        # 참고용으로 전체 목록(번호, 제목, 현재 즐겨찾기 상태)을 보여준다
+        if not prompts:
+            print("등록된 프롬프트가 없습니다.")
+            return
+
+        for i, p in enumerate(prompts, start=1):
+            star = "⭐" if p["favorite"] else ""
+            print(f"{i}. {p['title']} {star}")
+
+        # 즐겨찾기를 토글(추가↔해제)할 번호를 입력받는다
+        user_input = input("즐겨찾기를 변경할 번호를 입력하세요: ").strip()
+
+        if not user_input.isdigit():
+            print("올바른 번호를 입력해주세요.")
+            return
+
+        index = int(user_input) - 1
+
+        if index < 0 or index >= len(prompts):
+            print("존재하지 않는 번호입니다.")
+            return
+
+        # 현재 값의 반대로 바꿔준다 (True면 False로, False면 True로 = 토글)
+        prompts[index]["favorite"] = not prompts[index]["favorite"]
+
+        status = "추가" if prompts[index]["favorite"] else "해제"
+        print(f"'{prompts[index]['title']}' 프롬프트의 즐겨찾기가 {status}되었습니다.")
+
+    elif sub_choice == "2":
+        # ---- 즐겨찾기 목록만 모아서 보기 ----
+
+        # favorite가 True인 항목만 필터링
+        favorites = [p for p in prompts if p["favorite"]]
+
+        if not favorites:
+            print("즐겨찾기된 프롬프트가 없습니다.")
+            return
+
+        print("\n⭐ 즐겨찾기 목록")
+        for i, p in enumerate(favorites, start=1):
+            print(f"{i}. [{p['category']}] {p['title']}")
+
+    else:
+        print("잘못된 선택입니다.")
 
 
 def main():
