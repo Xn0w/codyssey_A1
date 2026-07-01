@@ -141,8 +141,43 @@ def search_prompt():
         print(f"{i}. [{p['category']}] {p['title']} {star}")
 
 
+# 9. 프롬프트 상세 보기
 def show_detail():
-    print("[프롬프트 상세 보기] 기능은 준비 중입니다.")
+    # 1. 먼저 전체 목록을 번호와 함께 보여줘서, 사용자가 몇 번을 볼지 참고할 수 있게 한다
+    print("\n--- 프롬프트 상세 보기 ---")
+
+    if not prompts:
+        print("등록된 프롬프트가 없습니다.")
+        return
+
+    for i, p in enumerate(prompts, start=1):
+        print(f"{i}. {p['title']}")
+
+    # 2. 사용자로부터 상세히 보고 싶은 프롬프트의 번호를 입력받는다
+    user_input = input("상세히 볼 프롬프트 번호를 입력하세요: ").strip()
+
+    # 3. 입력값이 숫자인지 확인 (숫자가 아니면 잘못된 입력으로 처리)
+    if not user_input.isdigit():
+        print("올바른 번호를 입력해주세요.")
+        return
+
+    index = int(user_input) - 1  # 리스트는 0번부터 시작하므로 1을 빼줌
+
+    # 4. 입력한 번호가 실제 목록 범위 안에 있는지 확인
+    if index < 0 or index >= len(prompts):
+        print("존재하지 않는 번호입니다.")
+        return
+
+    # 5. 범위 안에 있으면 해당 프롬프트의 전체 정보를 출력
+    p = prompts[index]
+    star = "⭐ 즐겨찾기됨" if p["favorite"] else "즐겨찾기 안됨"
+
+    print("\n===== 프롬프트 상세 정보 =====")
+    print(f"제목: {p['title']}")
+    print(f"카테고리: {p['category']}")
+    print(f"즐겨찾기: {star}")
+    print(f"내용:\n{p['content']}")
+    print("===============================")
 
 
 def show_favorites():
