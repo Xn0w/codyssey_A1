@@ -80,7 +80,7 @@ def add_prompt():
 
     print(f"'{title}' 프롬프트가 추가되었습니다.")
 
-
+# 6. 프롬프트 목록 (브랜치 활용)
 def show_list():
     print("\n--- 프롬프트 목록 ---")
 
@@ -92,7 +92,7 @@ def show_list():
         star = "⭐" if p["favorite"] else "" # 즐겨찾기 여부에 따라 별 표시 여부 결정
         print(f"{i}. [{p['category']}] {p['title']} {star}") # 요구사항에 명시된 표시 항목(번호, 제목, 카테고리, 즐겨찾기)
 
-
+# 7. 카테고리별 조회
 def show_by_category():
     # 1. 사용 가능한 카테고리 목록을 사용자에게 보여준다
     print("\n--- 카테고리별 조회 ---")
@@ -116,8 +116,29 @@ def show_by_category():
         print(f"{i}. {p['title']} {star}")
 
 
+# 8. 프롬프트 검색
 def search_prompt():
-    print("[프롬프트 검색] 기능은 준비 중입니다.")
+    # 1. 검색할 키워드를 사용자로부터 입력받는다
+    print("\n--- 프롬프트 검색 ---")
+    keyword = input("검색할 키워드를 입력하세요: ").strip()
+
+    # 2. 키워드가 제목(title) 또는 내용(content)에 포함되어 있는 프롬프트만 필터링
+    #    대소문자 구분 없이 검색되도록 둘 다 소문자로 변환하여 비교
+    filtered = [
+        p for p in prompts
+        if keyword.lower() in p["title"].lower() or keyword.lower() in p["content"].lower()
+    ]
+
+    # 3. 검색 결과가 없는 경우 안내 메시지 출력
+    if not filtered:
+        print(f"'{keyword}'를 포함하는 프롬프트가 없습니다.")
+        return
+
+    # 4. 검색된 프롬프트들을 번호, 제목, 카테고리, 즐겨찾기 여부와 함께 출력
+    print(f"\n'{keyword}' 검색 결과 ({len(filtered)}건)")
+    for i, p in enumerate(filtered, start=1):
+        star = "⭐" if p["favorite"] else ""
+        print(f"{i}. [{p['category']}] {p['title']} {star}")
 
 
 def show_detail():
